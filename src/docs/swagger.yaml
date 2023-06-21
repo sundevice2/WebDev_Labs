@@ -1,0 +1,285 @@
+openapi: 3.0.0
+info:
+  title: Joblog API
+  contact: {}
+  version: "1.0"
+servers:
+  - url: https://joblog-zclzm.ondigitalocean.app/api/v1
+    variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: User Registration
+      operationId: Register
+      description: Creates a new user account.
+      requestBody:
+        description: User registration data.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+            example:
+              name: test
+              email: test1234@gmail.com
+              password: Test1234
+        required: true
+      responses:
+        "200":
+          description: User successfully registered.
+          headers: {}
+      deprecated: false
+      security: []
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: User Login
+      operationId: Login
+      description: Authenticates and logs in a user.
+      requestBody:
+        description: User login credentials.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+            example:
+              email: testUser@test.com
+              password: secret
+        required: true
+      responses:
+        "200":
+          description: User successfully logged in.
+          headers: {}
+      deprecated: false
+      security: []
+
+  /auth/updateUser:
+    get:
+      tags:
+        - Auth
+      summary: Update User Profile
+      operationId: UpdateUser
+      description: Updates the profile information of a user.
+      parameters: []
+      responses:
+        "200":
+          description: User profile successfully updated.
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+
+  /jobs:
+    get:
+      tags:
+        - Job
+      summary: Get All Jobs
+      operationId: GetAllJobs
+      description: Retrieves a list of all jobs.
+      parameters: []
+      responses:
+        "200":
+          description: Successful retrieval of job list.
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    post:
+      tags:
+        - Job
+      summary: Create Job
+      operationId: CreateJob
+      description: Creates a new job.
+      parameters: []
+      requestBody:
+        description: Job creation data.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateJobRequest"
+            example:
+              company: traffic devils
+              position: middle
+      responses:
+        "200":
+          description: Job successfully created.
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+
+  /jobs/{id}:
+    get:
+      tags:
+        - Job
+      summary: Get Single Job
+      operationId: GetSingleJob
+      description: Retrieves details of a single job.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful retrieval of job details.
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    patch:
+      tags:
+        - Job
+      summary: Update Job
+      operationId: UpdateJob
+      description: Updates an existing job.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated job data.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateJobRequest"
+            example:
+              company: Hamill, Gusikowski and Mayer
+              position: Sales Associate
+              status: pending
+              jobLocation: Kyiv
+              jobType: full-time
+      responses:
+        "200":
+          description: Job successfully updated.
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    delete:
+      tags:
+        - Job
+      summary: Delete Job
+      operationId: DeleteJob
+      description: Deletes a job.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Job successfully deleted.
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+
+  /jobs/stats:
+    get:
+      tags:
+        - Job
+      summary: Show Stats
+      operationId: ShowStats
+      description: Retrieves statistics related to jobs.
+      parameters: []
+      responses:
+        "200":
+          description: Successful retrieval of job statistics.
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+
+components:
+  schemas:
+    RegisterRequest:
+      title: RegisterRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: maks1
+        email: test1234@gmail.com
+        password: Test1234
+    LoginRequest:
+      title: LoginRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: test1234@gmail.com
+        password: Test1234
+    CreateJobRequest:
+      title: CreateJobRequest
+      required:
+        - company
+        - position
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+      example:
+        company: traffic devils
+        position: middle
+    UpdateJobRequest:
+      title: UpdateJobRequest
+      required:
+        - company
+        - position
+        - status
+        - jobLocation
+        - jobType
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+        status:
+          type: string
+        jobLocation:
+          type: string
+        jobType:
+          type: string
+      example:
+        company: Hamill, Gusikowski and Mayer
+        position: Sales Associate
+        status: pending
+        jobLocation: Kyiv
+        jobType: full-time
+
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+
+security: []
+
+tags:
+  - name: Auth
+  - name: Job

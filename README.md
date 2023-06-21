@@ -19,7 +19,7 @@ You can check out the live demo here [https://joblog-u6bqd.ondigitalocean.app](h
 1. Clone the repository and navigate to the project directory.
 
 ```bash
-git clone https://github.com/kkkMaks/Jobs-API.git
+git clone https://github.com/sundevice/WebDev_Labs.git
 cd Jobs-API
 ```
 
